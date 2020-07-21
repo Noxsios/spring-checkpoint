@@ -1,10 +1,10 @@
 package com.galvanize.springcheckpoint;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class Controller {
@@ -48,6 +48,45 @@ public class Controller {
             }
         }
         return String.valueOf(outString).trim().replaceAll("\\s+", " ");
+    }
+
+    @PostMapping("/encode")
+    public String postEncode(
+            @RequestParam(value = "message", required = true, defaultValue = "") String message,
+            @RequestParam(value = "key", defaultValue = "") String jumble
+    ) {
+        String[] alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
+        StringBuilder outString = new StringBuilder();
+        String[] splitAll = message.split("");
+        for (int i = 0; i < splitAll.length - 1; i++) {
+            if (splitAll[i].equals(" ")) {
+                outString.append(" ");
+            } else {
+                int index = Arrays.asList(alphabet).indexOf(splitAll[i]);
+                String jumbledChar = jumble.split("")[index];
+                outString.append(jumbledChar);
+            }
+        }
+        return String.valueOf(outString);
+    }
+
+    @PostMapping("/s/{find}/{replace}")
+    public String postSed(
+            @PathVariable Map pathVariables,
+            @RequestBody String rawBody
+    ) {
+        String find = (String) pathVariables.get("find");
+        String replace = (String) pathVariables.get("replace");
+        String[] splitSpace = rawBody.split(" ");
+        StringBuilder outString = new StringBuilder();
+        for (String str : splitSpace) {
+            if (str.equals(find)) {
+                outString.append(" ").append(replace).append(" ");
+            } else {
+                outString.append(" ").append(str).append(" ");
+            }
+        }
+        return String.valueOf(outString);
     }
 
 }
