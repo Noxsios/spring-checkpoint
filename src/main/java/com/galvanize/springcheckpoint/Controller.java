@@ -39,9 +39,7 @@ public class Controller {
             for (String inner : badWords) {
                 if (str.equals(inner)) {
                     int len = inner.length();
-                    outString.append(" ");
-                    outString.append("*".repeat(Math.max(0, len)));
-                    outString.append(" ");
+                    outString.append(" ").append("*".repeat(Math.max(0, len))).append(" ");
                 } else {
                     outString.append(" ").append(str).append(" ");
                 }
@@ -58,7 +56,7 @@ public class Controller {
         String[] alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
         StringBuilder outString = new StringBuilder();
         String[] splitAll = message.split("");
-        for (int i = 0; i < splitAll.length - 1; i++) {
+        for (int i = 0; i < splitAll.length; i++) {
             if (splitAll[i].equals(" ")) {
                 outString.append(" ");
             } else {
